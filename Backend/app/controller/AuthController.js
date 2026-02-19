@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const ExpressError = require("../utils/ExpressError");
 const userSchema = require("../model/userSchema");
-const SECRET_KEY = process.env.SECRET_KEY;
 
 class AuthController {
   async signin(req, res) {
@@ -22,8 +21,8 @@ class AuthController {
       email: email,
       username: username,
     };
-    const token = await jwt.sign(payload, SECRET_KEY, {
-      expiresIn: "15m",
+    const token = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, {
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
     });
     if (!token) throw new ExpressError(404, "token generation failed");
 
@@ -50,6 +49,8 @@ class AuthController {
       token,
     });
   }
+
+  
   async login(req, res) {
     const { email, password } = req.body;
     if (!email || !password)
@@ -61,16 +62,16 @@ class AuthController {
     const userPass = userDetails.password;
 
     // verify password by bcyrpt
-    const verifyUser = await bcrypt.compare(password, userPass);
-    if (!verifyUser) throw new ExpressError(401, "Enter the correct Password");
+    const decode = await bcrypt.compare(password, userPass);
+    if (!decode) throw new ExpressError(401, "Enter the correct Password");
 
     const payload = {
       email: userDetails.email,
       username: userDetails.username,
     };
 
-    const token = await jwt.sign(payload, SECRET_KEY, {
-      expiresIn: "15m",
+    const token = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, {
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
     });
 
     res.json({
@@ -78,9 +79,9 @@ class AuthController {
       token,
     });
   }
-  async refreshToken(req, res) {
-    
-  }
+
+  
+  async refreshToken(req, res) {}
 }
 
 module.exports = new AuthController();
