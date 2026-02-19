@@ -30,3 +30,8 @@ a {
   width: calc(8.33% * 6);
   padding: 0 15px;
 }
+
+.btn-primary {
+  padding: 10px 20px !important;
+  background: skyblue !important;
+}
