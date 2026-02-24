@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const ExpressError = require("../utils/ExpressError");
 const userSchema = require("../model/userSchema");
+const { generateAccessToken, generateRefreshToken } = require("../utils/token");
 
 class AuthController {
   async signin(req, res) {
@@ -19,18 +20,12 @@ class AuthController {
         "you have already registered on this email id",
       );
 
-    // token generation
-    const payload = {
-      email: email,
-      username: username,
-    };
-    const token = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, {
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    });
-    if (!token) throw new ExpressError(404, "token generation failed");
-
     //password generation
     const hashPass = await bcrypt.hash(password, 10);
+
+    // token generation
+    const accessToken = generateAccessToken(email, username);
+    const refreshToken = generateRefreshToken(email, username);
 
     const userData = userSchema({
       username: username,
@@ -50,7 +45,8 @@ class AuthController {
     res.json({
       email: saveData.email,
       useranme: saveData.username,
-      token,
+      refreshToken,
+      accessToken,
     });
   }
 
@@ -68,20 +64,41 @@ class AuthController {
     const decode = await bcrypt.compare(password, userPass);
     if (!decode) throw new ExpressError(401, "Enter the correct Password");
 
-    const payload = {
-      email: userDetails.email,
-      username: userDetails.username,
-    };
+    const refreshToken = generateRefreshToken(
+      userDetails.email,
+      userDetails.username,
+    );
 
-    const token = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, {
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    });
+    const accessToken = generateAccessToken(
+      userDetails.email,
+      userDetails.username,
+    );
 
     res.json({
       success: true,
-      token,
+      refreshToken,
+      accessToken,
     });
   }
+
+  async adminLogin(req, res) {
+    const { email, password } = req.body;
+    console.log(email, password);
+    if (!email || !password)
+      throw new ExpressError(404, "Enter all the field Properly");
+    const findUser = await userSchema.findOne({ email });
+    console.log(findUser);
+    if (!findUser || findUser.role !== "Admin")
+      throw new ExpressError(
+        404,
+        "You are not authorized Login with correct credentials",
+      );
+
+    // Token Generation based on this
+    res.json(findUser);
+  }
+
+  async adminCreation(req, res) {}
 
   async refreshToken(req, res) {}
 }

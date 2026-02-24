@@ -6,6 +6,10 @@ const app = express();
 const DBConnect = require("./app/db/DBConnect");
 DBConnect();
 
+// rate limiter
+const limiter = require("./app/utils/rateLimit");
+app.use(limiter);
+
 // JSON Parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
