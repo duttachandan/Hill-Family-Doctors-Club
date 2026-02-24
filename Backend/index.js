@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Auth routes
 const authRoutes = require("./app/routes/authRoutes");
-app.use("/auth", authRoutes);
+app.use("/api", authRoutes);
 
 // global error handler
 app.use((err, req, res, next) => {

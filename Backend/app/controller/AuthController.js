@@ -14,7 +14,10 @@ class AuthController {
     // find the user is already exist or not
     const userDetails = await userSchema.findOne({ email });
     if (userDetails)
-      throw ExpressError(401, "you have already registered on this email id");
+      throw new ExpressError(
+        401,
+        "you have already registered on this email id",
+      );
 
     // token generation
     const payload = {
@@ -30,9 +33,10 @@ class AuthController {
     const hashPass = await bcrypt.hash(password, 10);
 
     const userData = userSchema({
-      email: email,
       username: username,
+      email: email,
       password: hashPass,
+      role: "users",
     });
 
     const saveData = await userData.save();
@@ -50,7 +54,6 @@ class AuthController {
     });
   }
 
-  
   async login(req, res) {
     const { email, password } = req.body;
     if (!email || !password)
@@ -80,7 +83,6 @@ class AuthController {
     });
   }
 
-  
   async refreshToken(req, res) {}
 }
 
