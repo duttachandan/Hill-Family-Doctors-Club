@@ -1,6 +1,7 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const ExpressError = require("./ExpressError");
+const userSchema = require("../model/userSchema");
 
 const generateAccessToken = async (email, username) => {
   const payload = {
@@ -23,23 +24,47 @@ const generateRefreshToken = async (email, username) => {
     email: email,
     username: username,
   };
-  const refreshToken = await jwt.sign(payload, process.env.REFRESH_TOKEN_KEY, {
-    expiresIn: process.env.REFRESH_TOKEN_SECRET_KEY,
-  });
+  const refreshToken = await jwt.sign(
+    payload,
+    process.env.REFRESH_TOKEN_SECRET_KEY,
+    {
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+    },
+  );
   return refreshToken;
 };
 
-const verfiyAccessToken = async (req, res, next) => {
+const verifyAccessToken = async (req, res, next) => {
   const token = req.body?.token || req.headers?.authorization;
   if (!token) throw new ExpressError(404, "no token found");
-  const decode = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
-  console.log(decode);
+  const decode = await jwt.verify(token, process.env.REFRESH_TOKEN_SECRET_KEY);
   req.user = decode;
+  next();
+};
+
+const verifyAdminToken = async (req, res, next) => {
+  try {
+    const token = req.body?.token || req.headers?.authorization;
+    console.log(token);
+    if (!token) throw new ExpressError(401, "no token found");
+    const { email } = await jwt.verify(
+      token,
+      process.env.ACCESS_TOKEN_SECRET_KEY,
+    );
+    if (!email) throw new ExpressError(404, "jwt Expired");
+    const { role } = await userSchema.findOne({ email });
+    if (role !== "admin")
+      throw new ExpressError(404, "You are not authorized to edit this file");
+  } catch (err) {
+    console.log(err);
+    throw new ExpressError(404, err.message);
+  }
   next();
 };
 
 module.exports = {
   generateAccessToken,
   generateRefreshToken,
-  verfiyAccessToken,
+  verifyAccessToken,
+  verifyAdminToken,
 };

@@ -1,6 +1,6 @@
 const express = require("express");
 const Router = express.Router();
-const { verfiyAccessToken } = require("../utils/token");
+const { verifyAdminToken } = require("../utils/token");
 
 const AuthController = require("../controller/AuthController");
 const wrapAsync = require("../utils/WrapAsync");
@@ -11,20 +11,23 @@ Router.post("/register", wrapAsync(AuthController.signin));
 Router.get("/refreshtoken", wrapAsync(AuthController.refreshToken));
 
 // Admin Login
-Router.get("/adminlogin", wrapAsync(AuthController.adminLogin));
+Router.post("/adminlogin", wrapAsync(AuthController.adminLogin));
 
 // Doctor Modules
 Router.get("/doctors", wrapAsync(DoctorController.getAllDoctors));
 
+// Token Refresh
+Router.get("/refresh", AuthController.refreshToken);
+
 // Admin Only Routes
 Router.post(
   "/createdoctors",
-  verfiyAccessToken,
+  verifyAdminToken,
   wrapAsync(DoctorController.createDoctor),
 );
 Router.get(
   "/deletedoctor/:id",
-  verfiyAccessToken,
+  verifyAdminToken,
   wrapAsync(DoctorController.DeleteDoctor),
 );
 

@@ -7,7 +7,7 @@ const { generateAccessToken, generateRefreshToken } = require("../utils/token");
 
 class AuthController {
   async signin(req, res) {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
     if (!email || !password)
       throw new ExpressError(404, "enter all the field correctly");
     const username = email.split("@")[0];
@@ -27,11 +27,14 @@ class AuthController {
     const accessToken = generateAccessToken(email, username);
     const refreshToken = generateRefreshToken(email, username);
 
+    if (!accessToken || !refreshToken)
+      throw ExpressError(404, "we are facing issue generating token");
+
     const userData = userSchema({
       username: username,
       email: email,
       password: hashPass,
-      role: "users",
+      role: role || "users",
     });
 
     const saveData = await userData.save();
@@ -42,10 +45,15 @@ class AuthController {
         "some problem occured while submitting in the database",
       );
 
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    });
     res.json({
       email: saveData.email,
       useranme: saveData.username,
-      refreshToken,
       accessToken,
     });
   }
@@ -74,33 +82,63 @@ class AuthController {
       userDetails.username,
     );
 
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    });
+
     res.json({
       success: true,
-      refreshToken,
       accessToken,
     });
   }
 
   async adminLogin(req, res) {
     const { email, password } = req.body;
-    console.log(email, password);
     if (!email || !password)
       throw new ExpressError(404, "Enter all the field Properly");
     const findUser = await userSchema.findOne({ email });
-    console.log(findUser);
-    if (!findUser || findUser.role !== "Admin")
+    if (!findUser || findUser.role !== "admin")
       throw new ExpressError(
         404,
         "You are not authorized Login with correct credentials",
       );
 
+    const { username } = findUser;
     // Token Generation based on this
-    res.json(findUser);
+    const accessToken = await generateAccessToken(email, username);
+    const refreshToken = await generateRefreshToken(email, username);
+
+    if (!refreshToken || !accessToken)
+      throw new ExpressError(404, "no token found");
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    });
+    res.json({
+      findUser,
+      accessToken,
+    });
   }
 
-  async adminCreation(req, res) {}
-
-  async refreshToken(req, res) {}
+  async refreshToken(req, res) {
+    const token = req.cookies.refreshToken;
+    if (!token) throw new ExpressError(404, "no token found");
+    const decode = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET_KEY);
+    const newAccessToken = await generateAccessToken(
+      decode.email,
+      decode.username,
+    );
+    if (!newAccessToken)
+      throw new ExpressError(404, "new acess token generation issue");
+    res.json({
+      accessToken: newAccessToken,
+    });
+  }
 }
 
 module.exports = new AuthController();
