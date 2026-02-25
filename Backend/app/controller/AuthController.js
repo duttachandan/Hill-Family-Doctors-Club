@@ -1,16 +1,16 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+
 const ExpressError = require("../utils/ExpressError");
 const userSchema = require("../model/userSchema");
 const { generateAccessToken, generateRefreshToken } = require("../utils/token");
+const { UserSchemaValidator } = require("../utils/JoiValidation");
 
 class AuthController {
   async signin(req, res) {
     const { email, password, role } = req.body;
-    if (!email || !password)
-      throw new ExpressError(404, "enter all the field correctly");
-    const username = email.split("@")[0];
+    const username = email?.split("@")[0];
 
     // find the user is already exist or not
     const userDetails = await userSchema.findOne({ email });
@@ -24,18 +24,23 @@ class AuthController {
     const hashPass = await bcrypt.hash(password, 10);
 
     // token generation
-    const accessToken = generateAccessToken(email, username);
-    const refreshToken = generateRefreshToken(email, username);
+    const accessToken = await generateAccessToken(email, username);
+    const refreshToken = await generateRefreshToken(email, username);
 
     if (!accessToken || !refreshToken)
       throw ExpressError(404, "we are facing issue generating token");
 
-    const userData = userSchema({
+    const payload = {
       username: username,
       email: email,
       password: hashPass,
       role: role || "users",
-    });
+    };
+
+    const { error } = await UserSchemaValidator.validate(payload);
+    if (error) throw new ExpressError(404, error.message);
+
+    const userData = userSchema(payload);
 
     const saveData = await userData.save();
 

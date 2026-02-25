@@ -45,14 +45,15 @@ const verifyAccessToken = async (req, res, next) => {
 const verifyAdminToken = async (req, res, next) => {
   try {
     const token = req.body?.token || req.headers?.authorization;
-    console.log(token);
     if (!token) throw new ExpressError(401, "no token found");
     const { email } = await jwt.verify(
       token,
       process.env.ACCESS_TOKEN_SECRET_KEY,
     );
     if (!email) throw new ExpressError(404, "jwt Expired");
-    const { role } = await userSchema.findOne({ email });
+    const userData = await userSchema.findOne({ email });
+    const { role } = userData;
+    console.log(role);
     if (role !== "admin")
       throw new ExpressError(404, "You are not authorized to edit this file");
   } catch (err) {

@@ -17,7 +17,7 @@ Router.post("/adminlogin", wrapAsync(AuthController.adminLogin));
 Router.get("/doctors", wrapAsync(DoctorController.getAllDoctors));
 
 // Token Refresh
-Router.get("/refresh", AuthController.refreshToken);
+Router.get("/refresh", wrapAsync(AuthController.refreshToken));
 
 // Admin Only Routes
 Router.post(
@@ -29,6 +29,12 @@ Router.get(
   "/deletedoctor/:id",
   verifyAdminToken,
   wrapAsync(DoctorController.DeleteDoctor),
+);
+
+Router.post(
+  "/editdoctor/:id",
+  verifyAdminToken,
+  wrapAsync(DoctorController.EditDoctor),
 );
 
 module.exports = Router;
