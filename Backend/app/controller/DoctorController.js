@@ -57,6 +57,12 @@ class DoctorController {
     if (!updateData) throw new ExpressError(404, updateData.message);
     res.json(updateData);
   }
+
+  async ReqDoctorAppointment(req, res) {
+    const { id } = req.params;
+    if (!id) throw new ExpressError(404, "No id Found");
+    
+  }
 }
 
 module.exports = new DoctorController();

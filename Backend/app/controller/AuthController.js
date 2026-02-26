@@ -6,6 +6,7 @@ const ExpressError = require("../utils/ExpressError");
 const userSchema = require("../model/userSchema");
 const { generateAccessToken, generateRefreshToken } = require("../utils/token");
 const { UserSchemaValidator } = require("../utils/JoiValidation");
+const sendMail = require("../utils/sendMail");
 
 class AuthController {
   async signin(req, res) {
@@ -26,7 +27,6 @@ class AuthController {
     // token generation
     const accessToken = await generateAccessToken(email, username);
     const refreshToken = await generateRefreshToken(email, username);
-
     if (!accessToken || !refreshToken)
       throw ExpressError(404, "we are facing issue generating token");
 
@@ -49,6 +49,13 @@ class AuthController {
         404,
         "some problem occured while submitting in the database",
       );
+
+    sendMail(
+      process.env.EMAIL_KEY,
+      email,
+      "Welcome To DoctorsClub",
+      "<p>Welcome User</p>",
+    );
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
@@ -77,15 +84,18 @@ class AuthController {
     const decode = await bcrypt.compare(password, userPass);
     if (!decode) throw new ExpressError(401, "Enter the correct Password");
 
-    const refreshToken = generateRefreshToken(
+    const refreshToken = await generateRefreshToken(
       userDetails.email,
       userDetails.username,
     );
 
-    const accessToken = generateAccessToken(
+    const accessToken = await generateAccessToken(
       userDetails.email,
       userDetails.username,
     );
+
+    if (!accessToken || !refreshToken)
+      throw ExpressError(404, "no token generated");
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
@@ -93,6 +103,13 @@ class AuthController {
       sameSite: "strict",
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
+
+    sendMail(
+      process.env.EMAIL_KEY,
+      userDetails.email,
+      "Welcome To DoctorsClub",
+      "<h1>Welcome to the DoctorsClub</h1>",
+    );
 
     res.json({
       success: true,

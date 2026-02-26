@@ -21,6 +21,22 @@ const userSchema = Schema(
       type: String,
       required: true,
     },
+    doctorsAppointment: [
+      {
+        docotorId: {
+          type: Schema.Types.ObjectId,
+          ref: "doctors",
+        },
+        slot: {
+          date: {
+            type: String,
+          },
+          time: {
+            type: String,
+          },
+        },
+      },
+    ],
   },
   {
     timestamp: true,

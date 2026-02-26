@@ -30,7 +30,6 @@ Router.get(
   verifyAdminToken,
   wrapAsync(DoctorController.DeleteDoctor),
 );
-
 Router.post(
   "/editdoctor/:id",
   verifyAdminToken,
