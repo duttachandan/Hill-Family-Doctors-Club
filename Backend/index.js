@@ -36,7 +36,6 @@ app.use((req, res, next) => {
 
 // global error handler
 app.use((err, req, res, next) => {
-  console.log(err.statusCode, err.message);
   res.status(err.statusCode || 500).json({
     success: false,
     message: err.message || "some errors occured",

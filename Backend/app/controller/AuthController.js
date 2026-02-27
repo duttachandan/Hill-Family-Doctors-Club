@@ -9,6 +9,7 @@ const { UserSchemaValidator } = require("../utils/JoiValidation");
 const sendMail = require("../utils/sendMail");
 const generateOtp = require("../helper/generateOtp");
 const otpModel = require("../model/otpSchema");
+const { html, welcomeHtml } = require("../helper/generateOtpHTML");
 
 class AuthController {
   async generateOtp(req, res) {
@@ -40,11 +41,7 @@ class AuthController {
       process.env.EMAIL_KEY,
       email,
       "Verify OTP to register in Doctors Club",
-      `
-    <h1>Welcome to DoctorsClub, ${email?.split("@")[0]}. </h1>
-    <p>Your One Time Password: <span style="font-size:30px; font-weight:700;">${otp}</span></p>
-    <div>from DcoctorsClub Group</div>
-      `,
+      html(email, otp),
     );
 
     res.json({
@@ -102,11 +99,7 @@ class AuthController {
       process.env.EMAIL_KEY,
       email,
       "Welcome To DoctorsClub",
-      `
-      <h1>Welcome to DoctorsClub, ${username}. </h1>
-      <p>Thank you for choosing us</p>
-      <div>from DcoctorsClub Group</div>
-      `,
+      welcomeHtml(username),
     );
 
     res.cookie("refreshToken", refreshToken, {
@@ -160,11 +153,12 @@ class AuthController {
       process.env.EMAIL_KEY,
       userDetails.email,
       "Welcome To DoctorsClub",
-      "<h1>Welcome to the DoctorsClub</h1>",
+      welcomeHtml(userDetails.username),
     );
 
     res.json({
       success: true,
+      email,
       accessToken,
     });
   }

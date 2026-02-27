@@ -59,9 +59,17 @@ class DoctorController {
   }
 
   async ReqDoctorAppointment(req, res) {
-    const { id, userId } = req.params;
-    if (!id) throw new ExpressError(404, "No id Found");
-    console.log(id, userId);
+    const { email } = req.user;
+    const { id } = req.params;
+    if (!id || !email)
+      throw new ExpressError(
+        404,
+        "user credential or doctor credential not found",
+      );
+    const foundDoctorId = await doctorSchema.findById(id);
+    if(!foundDoctorId) throw new ExpressError(404, "no doctor found on this id");
+    res.json(foundDoctorId);
+    // if (!foundDoctorId) throw new ExpressError(404, "No doctors Id Found");
   }
 }
 

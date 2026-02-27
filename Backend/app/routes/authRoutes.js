@@ -21,8 +21,8 @@ Router.get("/doctors", wrapAsync(DoctorController.getAllDoctors));
 Router.get("/refresh", wrapAsync(AuthController.refreshToken));
 
 // user only Routes
-Router.post(
-  "/:userId/appointDoctor/:id",
+Router.get(
+  "/appointment/:id",
   verifyAccessToken,
   wrapAsync(DoctorController.ReqDoctorAppointment),
 );
@@ -43,5 +43,6 @@ Router.post(
   verifyAdminToken,
   wrapAsync(DoctorController.EditDoctor),
 );
+
 
 module.exports = Router;

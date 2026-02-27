@@ -37,7 +37,7 @@ const generateRefreshToken = async (email, username) => {
 const verifyAccessToken = async (req, res, next) => {
   const token = req.body?.token || req.headers?.authorization;
   if (!token) throw new ExpressError(404, "no token found");
-  const decode = await jwt.verify(token, process.env.REFRESH_TOKEN_SECRET_KEY);
+  const decode = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
   req.user = decode;
   next();
 };
