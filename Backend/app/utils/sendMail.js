@@ -1,6 +1,7 @@
 const transporter = require("../helper/nodeMailer");
 
-const sendMail = async (from, to, subject, html, text) => {
+const sendMail = async (from, to, subject, html) => {
+  console.log(from, to, subject, html);
   await transporter.sendMail({
     from: from,
     to: to,

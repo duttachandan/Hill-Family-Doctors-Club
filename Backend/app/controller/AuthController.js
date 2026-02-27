@@ -7,33 +7,75 @@ const userSchema = require("../model/userSchema");
 const { generateAccessToken, generateRefreshToken } = require("../utils/token");
 const { UserSchemaValidator } = require("../utils/JoiValidation");
 const sendMail = require("../utils/sendMail");
+const generateOtp = require("../helper/generateOtp");
+const otpModel = require("../model/otpSchema");
 
 class AuthController {
-  async signin(req, res) {
+  async generateOtp(req, res) {
     const { email, password, role } = req.body;
+    if (!email) throw ExpressError(404, "no Email Found");
+    const otp = generateOtp();
+    const hashPass = await bcrypt.hash(password, 10);
+    const hashOtp = await bcrypt.hash(`${otp}`, 10);
+
+    const saveOtp = await otpModel.findOneAndUpdate(
+      { email }, // filter
+      {
+        email,
+        password: hashPass,
+        role: role || "users",
+        otp: hashOtp,
+        createdAt: new Date(), // 🔥 reset TTL timer
+      },
+      {
+        upsert: true, // create if not exists
+        new: true, // return updated document
+        setDefaultsOnInsert: true,
+      },
+    );
+
+    if (!saveOtp) throw ExpressError(404, "OTP not generated");
+
+    sendMail(
+      process.env.EMAIL_KEY,
+      email,
+      "Verify OTP to register in Doctors Club",
+      `
+    <h1>Welcome to DoctorsClub, ${email?.split("@")[0]}. </h1>
+    <p>Your One Time Password: <span style="font-size:30px; font-weight:700;">${otp}</span></p>
+    <div>from DcoctorsClub Group</div>
+      `,
+    );
+
+    res.json({
+      success: true,
+    });
+  }
+
+  async signin(req, res) {
+    const { email, userOtp } = req.body;
+    console.log(email, typeof userOtp);
     const username = email?.split("@")[0];
 
     // find the user is already exist or not
-    const userDetails = await userSchema.findOne({ email });
-    if (userDetails)
+    const userExist = await userSchema.findOne({ email });
+    if (userExist)
       throw new ExpressError(
         401,
         "you have already registered on this email id",
       );
 
-    //password generation
-    const hashPass = await bcrypt.hash(password, 10);
-
-    // token generation
-    const accessToken = await generateAccessToken(email, username);
-    const refreshToken = await generateRefreshToken(email, username);
-    if (!accessToken || !refreshToken)
-      throw ExpressError(404, "we are facing issue generating token");
+    //findUserOTP
+    const otpRecord = await otpModel.findOne({ email });
+    if (!otpRecord) throw new ExpressError(404, "OTP expired or Invalid");
+    const { role, password, otp } = otpRecord;
+    const verifyOtp = await bcrypt.compare(userOtp, otp);
+    if (!verifyOtp) throw new ExpressError(404, "OTP Incorrect");
 
     const payload = {
       username: username,
       email: email,
-      password: hashPass,
+      password: password,
       role: role || "users",
     };
 
@@ -50,11 +92,21 @@ class AuthController {
         "some problem occured while submitting in the database",
       );
 
+    // token generation
+    const accessToken = await generateAccessToken(email, username);
+    const refreshToken = await generateRefreshToken(email, username);
+    if (!accessToken || !refreshToken)
+      throw ExpressError(404, "we are facing issue generating token");
+
     sendMail(
       process.env.EMAIL_KEY,
       email,
       "Welcome To DoctorsClub",
-      "<p>Welcome User</p>",
+      `
+      <h1>Welcome to DoctorsClub, ${username}. </h1>
+      <p>Thank you for choosing us</p>
+      <div>from DcoctorsClub Group</div>
+      `,
     );
 
     res.cookie("refreshToken", refreshToken, {

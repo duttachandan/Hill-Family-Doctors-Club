@@ -59,9 +59,9 @@ class DoctorController {
   }
 
   async ReqDoctorAppointment(req, res) {
-    const { id } = req.params;
+    const { id, userId } = req.params;
     if (!id) throw new ExpressError(404, "No id Found");
-    
+    console.log(id, userId);
   }
 }
 
