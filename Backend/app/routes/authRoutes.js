@@ -13,10 +13,8 @@ Router.post("/generateotp", wrapAsync(AuthController.generateOtp));
 
 // Admin Login
 Router.post("/adminlogin", wrapAsync(AuthController.adminLogin));
-
 // Doctor Modules
 Router.get("/doctors", wrapAsync(DoctorController.getAllDoctors));
-
 // Token Refresh
 Router.get("/refresh", wrapAsync(AuthController.refreshToken));
 
@@ -25,6 +23,11 @@ Router.get(
   "/appointment/:id",
   verifyAccessToken,
   wrapAsync(DoctorController.ReqDoctorAppointment),
+);
+Router.post(
+  "/appointment/doctor",
+  verifyAccessToken,
+  wrapAsync(DoctorController.ReqAppointment),
 );
 
 // Admin Only Routes
@@ -43,6 +46,10 @@ Router.post(
   verifyAdminToken,
   wrapAsync(DoctorController.EditDoctor),
 );
-
+Router.post(
+  "/appointment/pending",
+  verifyAdminToken,
+  wrapAsync(DoctorController.PendingAppoinment),
+);
 
 module.exports = Router;

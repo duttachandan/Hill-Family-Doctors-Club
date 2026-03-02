@@ -2,14 +2,27 @@ const mongoose = require("mongoose");
 const doctorSchema = require("../model/doctorSchema");
 const ExpressError = require("../utils/ExpressError");
 const { DoctorSchemaValidator } = require("../utils/JoiValidation");
+const userModel = require("../model/userSchema");
+const appointmentModel = require("../model/appointmentSchema");
 
 class DoctorController {
   async getAllDoctors(req, res) {
     const doctorList = await doctorSchema.find({});
-    console.log(doctorList);
     res.json(doctorList);
   }
-
+  async ReqDoctorAppointment(req, res) {
+    const { email } = req.user;
+    const { id } = req.params;
+    if (!id || !email)
+      throw new ExpressError(
+        404,
+        "user credential or doctor credential not found",
+      );
+    const foundDoctorId = await doctorSchema.findById(id);
+    if (!foundDoctorId)
+      throw new ExpressError(404, "no doctor found on this id");
+    res.json(foundDoctorId);
+  }
   // Admin Routes
   async createDoctor(req, res) {
     const { name, specialization, fees, availableSlots } = req.body;
@@ -28,7 +41,6 @@ class DoctorController {
     if (!addDoctor) throw ExpressError(404, addDoctor?.message || addDoctor);
     res.json(addDoctor);
   }
-
   async DeleteDoctor(req, res) {
     const { id } = req.params;
     const deleteData = await doctorSchema.findByIdAndDelete(id);
@@ -38,7 +50,6 @@ class DoctorController {
       message: "data deleted Successfully",
     });
   }
-
   async EditDoctor(req, res) {
     const { id } = req.params;
     const { name, specialization, fees, availableSlots } = req.body;
@@ -57,19 +68,29 @@ class DoctorController {
     if (!updateData) throw new ExpressError(404, updateData.message);
     res.json(updateData);
   }
-
-  async ReqDoctorAppointment(req, res) {
-    const { email } = req.user;
-    const { id } = req.params;
-    if (!id || !email)
-      throw new ExpressError(
-        404,
-        "user credential or doctor credential not found",
-      );
-    const foundDoctorId = await doctorSchema.findById(id);
-    if(!foundDoctorId) throw new ExpressError(404, "no doctor found on this id");
-    res.json(foundDoctorId);
-    // if (!foundDoctorId) throw new ExpressError(404, "No doctors Id Found");
+  async ReqAppointment(req, res) {
+    const decode = req.user;
+    const { email } = decode;
+    const { doctor, time, date } = req.body;
+    if (!email || !doctor || !time || !date) {
+      throw new ExpressError("Enter all the field Correctly");
+    }
+    const { _id } = await userModel.findOne({ email });
+    const doctorAppoinmentDetails = appointmentModel({
+      user: _id,
+      doctors: {
+        doctor: doctor,
+        time: time,
+        date: date,
+        approve: false,
+      },
+    });
+    const submitAppointment = await doctorAppoinmentDetails.save();
+    res.json(submitAppointment);
+  }
+  async PendingAppoinment(req, res) {
+    const allData = await appointmentModel.find();
+    res.json(allData);
   }
 }
 

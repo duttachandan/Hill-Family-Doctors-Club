@@ -1,8 +1,3 @@
-// import React, { BrowseRouter, Routes, Router, Routes } from "react";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
 import Layout from "./layout/Layout";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import Login from "./pages/Login";
@@ -13,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import Home from "./routes/Home";
 
 function App() {
+  
   let browseRoutes = [
     {
       path: "",
