@@ -7,7 +7,7 @@ const initialState = {
   data: [],
 };
 
-const authLogin = createAsyncThunk('auth/login', );
+export const authLogin = createAsyncThunk('auth/login', fetchAuth);
 
 const authSlice = createSlice({
   name: "auth",
