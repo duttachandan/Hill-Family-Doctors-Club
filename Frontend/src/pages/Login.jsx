@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { authLogin } from "../reducers/loginReducer";
 import { object, string } from "yup";
-import Modal from "../utils/modal";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const formValidator = object({
@@ -26,10 +26,16 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validateForm = await formValidator.validate(formData);
-    // if (validateForm) {
-    //   throw new Error(validateForm.error);
-    // }
+    try {
+      await formValidator.validate(formData);
+    } catch (err) {
+      Swal.fire({
+        title: "Error!",
+        text: err.message,
+        icon: "error",
+        confirmButtonText: "danger",
+      });
+    }
     dispatch(authLogin(formData));
   };
 
@@ -37,35 +43,35 @@ const Login = () => {
     <section>
       <div className="container">
         <form className="max-w-300" onSubmit={handleSubmit}>
-          <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">
+          <div className="row mb-3">
+            <label for="inputEmail3" className="col-sm-2 col-form-label">
               Email
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 type="email"
-                class="form-control"
+                className="form-control"
                 id="email"
                 value={formData.email}
                 onChange={handleInput}
               />
             </div>
           </div>
-          <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">
+          <div className="row mb-3">
+            <label for="inputPassword3" className="col-sm-2 col-form-label">
               Password
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 type="password"
-                class="form-control"
+                className="form-control"
                 id="password"
                 value={formData.password}
                 onChange={handleInput}
               />
             </div>
           </div>
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             Sign in
           </button>
         </form>
