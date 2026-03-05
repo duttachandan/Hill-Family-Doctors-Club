@@ -20,3 +20,7 @@ a {
   width: 100%;
 }
 
+.max-w-300 {
+  max-width: 500px;
+  margin: 30px auto;
+}

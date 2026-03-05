@@ -8,7 +8,6 @@ import NotFound from "./pages/NotFound";
 import Home from "./routes/Home";
 
 function App() {
-  
   let browseRoutes = [
     {
       path: "",
