@@ -6,6 +6,16 @@ const app = express();
 const DBConnect = require("./app/db/DBConnect");
 DBConnect();
 
+// CORS Policy
+const cors = require("cors");
+app.use(
+  cors({
+    origin: process.env.FRONTEND_DOMAIN,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
+
 // rate limiter
 const limiter = require("./app/utils/rateLimit");
 app.use(limiter);

@@ -14,7 +14,14 @@ const { html, welcomeHtml } = require("../helper/generateOtpHTML");
 class AuthController {
   async generateOtp(req, res) {
     const { email, password, role } = req.body;
-    if (!email) throw ExpressError(404, "no Email Found");
+    if (!email) throw new ExpressError(404, "no Email Found");
+    // find the user is already exist or not
+    const userExist = await userSchema.findOne({ email });
+    if (userExist)
+      throw new ExpressError(
+        401,
+        "you have already registered on this email id",
+      );
     const otp = generateOtp();
     const hashPass = await bcrypt.hash(password, 10);
     const hashOtp = await bcrypt.hash(`${otp}`, 10);
@@ -53,14 +60,6 @@ class AuthController {
     const { email, userOtp } = req.body;
     console.log(email, typeof userOtp);
     const username = email?.split("@")[0];
-
-    // find the user is already exist or not
-    const userExist = await userSchema.findOne({ email });
-    if (userExist)
-      throw new ExpressError(
-        401,
-        "you have already registered on this email id",
-      );
 
     //findUserOTP
     const otpRecord = await otpModel.findOne({ email });

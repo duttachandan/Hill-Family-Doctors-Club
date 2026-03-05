@@ -24,6 +24,7 @@ Router.get(
   verifyAccessToken,
   wrapAsync(DoctorController.ReqDoctorAppointment),
 );
+
 Router.post(
   "/appointment/doctor",
   verifyAccessToken,
