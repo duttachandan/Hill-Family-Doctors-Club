@@ -1,14 +1,9 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { authLogin } from "../reducers/loginReducer";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router";
 
 const Navbar = () => {
-  const data = useSelector((state) => console.log(state));
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(authLogin());
-  }, []);
+  const data = useSelector((state) => state.auth);
 
   return (
     <>
