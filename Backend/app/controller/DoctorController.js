@@ -10,6 +10,7 @@ class DoctorController {
     const doctorList = await doctorSchema.find({});
     res.json(doctorList);
   }
+
   async ReqDoctorAppointment(req, res) {
     const { email } = req.user;
     const { id } = req.params;
@@ -23,6 +24,7 @@ class DoctorController {
       throw new ExpressError(404, "no doctor found on this id");
     res.json(foundDoctorId);
   }
+
   // Admin Routes
   async createDoctor(req, res) {
     const { name, specialization, fees, availableSlots } = req.body;
@@ -41,6 +43,7 @@ class DoctorController {
     if (!addDoctor) throw ExpressError(404, addDoctor?.message || addDoctor);
     res.json(addDoctor);
   }
+
   async DeleteDoctor(req, res) {
     const { id } = req.params;
     const deleteData = await doctorSchema.findByIdAndDelete(id);
@@ -50,6 +53,7 @@ class DoctorController {
       message: "data deleted Successfully",
     });
   }
+
   async EditDoctor(req, res) {
     const { id } = req.params;
     const { name, specialization, fees, availableSlots } = req.body;
@@ -68,6 +72,7 @@ class DoctorController {
     if (!updateData) throw new ExpressError(404, updateData.message);
     res.json(updateData);
   }
+
   async ReqAppointment(req, res) {
     const decode = req.user;
     const { email } = decode;
@@ -82,15 +87,46 @@ class DoctorController {
         doctor: doctor,
         time: time,
         date: date,
-        approve: false,
+        approve: "pending",
       },
     });
     const submitAppointment = await doctorAppoinmentDetails.save();
     res.json(submitAppointment);
   }
+
   async PendingAppoinment(req, res) {
-    const allData = await appointmentModel.find();
+    const allData = await appointmentModel.find({
+      "doctors.approve": "pending",
+    });
     res.json(allData);
+  }
+
+  async approveAppoinment(req, res) {
+    const { id } = req.params;
+    console.log(id);
+    const data = await appointmentModel.findByIdAndUpdate(
+      id,
+      { $set: { "doctors.approve": "approved" } },
+      { new: true },
+    );
+    if (!data) {
+      throw new ExpressError(404, "appoinment approved failed");
+    }
+    res.json(data);
+  }
+
+  async rejectAppoinment(req, res) {
+    const { id } = req.params;
+    console.log(id);
+    const data = await appointmentModel.findByIdAndUpdate(
+      id,
+      { $set: { "doctors.approve": "rejected" } },
+      { new: true },
+    );
+    if (!data) {
+      throw new ExpressError(404, "appoinment approved failed");
+    }
+    res.json(data);
   }
 }
 

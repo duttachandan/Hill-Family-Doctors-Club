@@ -52,5 +52,15 @@ Router.post(
   verifyAdminToken,
   wrapAsync(DoctorController.PendingAppoinment),
 );
+Router.get(
+  "/appointment/approve/:id",
+  verifyAdminToken,
+  wrapAsync(DoctorController.approveAppoinment),
+);
+Router.get(
+  "/appointment/rejected/:id",
+  verifyAdminToken,
+  wrapAsync(DoctorController.rejectAppoinment),
+);
 
 module.exports = Router;

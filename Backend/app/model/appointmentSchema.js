@@ -21,7 +21,8 @@ const appointmentSchema = Schema({
       required: true,
     },
     approve: {
-      type: Boolean,
+      type: String,
+      default: "pending",
       required: true,
     },
   },

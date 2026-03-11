@@ -53,7 +53,6 @@ const verifyAdminToken = async (req, res, next) => {
     if (!email) throw new ExpressError(404, "jwt Expired");
     const userData = await userSchema.findOne({ email });
     const { role } = userData;
-    console.log(role);
     if (role !== "admin")
       throw new ExpressError(404, "You are not authorized to edit this file");
   } catch (err) {
