@@ -14,6 +14,11 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
+  cors({
+    origin: process.env.ADMIN_FRONTEND_DOMAIN,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
 );
 
 // rate limiter

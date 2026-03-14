@@ -20,7 +20,7 @@ class AuthController {
     if (userExist)
       throw new ExpressError(
         401,
-        "you have already registered on this email id",
+        "you have already registered on this email id try Log In",
       );
     const otp = generateOtp();
     const hashPass = await bcrypt.hash(password, 10);
@@ -163,8 +163,8 @@ class AuthController {
   }
 
   async adminLogin(req, res) {
-    const { email, password } = req.body;
-    if (!email || !password)
+    const { email, reqPassword } = req.body;
+    if (!email || !reqPassword)
       throw new ExpressError(404, "Enter all the field Properly");
     const findUser = await userSchema.findOne({ email });
     if (!findUser || findUser.role !== "admin")
@@ -173,7 +173,11 @@ class AuthController {
         "You are not authorized Login with correct credentials",
       );
 
-    const { username } = findUser;
+    const { username, password } = findUser;
+    // console.log(username, password);
+    const decode = await bcrypt.compare(reqPassword, password);
+    if (!decode) throw new ExpressError(404, "you have entered wrong password")
+
     // Token Generation based on this
     const accessToken = await generateAccessToken(email, username);
     const refreshToken = await generateRefreshToken(email, username);
