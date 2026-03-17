@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+body {
+  overflow-x: hidden !important;
+}
+
+.font-space{
+  font-family: var(--font-space-grotesk);
+}
+.font-roboto{
+  font-family: var(--font-Roboto);
+}

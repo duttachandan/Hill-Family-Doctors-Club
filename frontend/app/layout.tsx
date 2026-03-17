@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Roboto, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { Roboto, Space_Grotesk } from "next/font/google";
+import Navbar from "@/components/Layout/Navbar";
+import Footer from "@/components/Layout/Footer";
 
 const geistRobot = Roboto({
   variable: "--font-Roboto",
@@ -27,7 +29,9 @@ export default function RootLayout({
       <body
         className={`${geistGrotest.variable} ${geistRobot.variable} antialiased`}
       >
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

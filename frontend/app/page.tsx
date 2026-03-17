@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Coutner from "@/components/Coutner";
+import Coutner from "@/components/Home/Coutner";
 
 export default async function Home() {
   // await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -7,7 +7,11 @@ export default async function Home() {
 
   return (
     <main>
-      <div>Home Page</div>
+      <section className="banner-sec min-h-50 flex items-center text-center bg-green-200">
+        <div className="px-3.75 max-w-362.5 mx-auto">
+          <h1 className="text-4xl">Welcome To Doctor's Club</h1>
+        </div>
+      </section>
       <Coutner />
     </main>
   );
