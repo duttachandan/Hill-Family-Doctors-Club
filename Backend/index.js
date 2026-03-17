@@ -10,12 +10,10 @@ DBConnect();
 const cors = require("cors");
 app.use(
   cors({
-    origin: process.env.FRONTEND_DOMAIN,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  }),
-  cors({
-    origin: process.env.ADMIN_FRONTEND_DOMAIN,
+    origin: [
+      process.env.FRONTEND_DOMAIN,
+      process.env.ADMIN_FRONTEND_DOMAIN,
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
