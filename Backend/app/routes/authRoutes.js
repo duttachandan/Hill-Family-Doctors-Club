@@ -6,17 +6,20 @@ const AuthController = require("../controller/AuthController");
 const wrapAsync = require("../utils/WrapAsync");
 const DoctorController = require("../controller/DoctorController");
 
+// user Login
 Router.post("/login", wrapAsync(AuthController.login));
 Router.post("/register", wrapAsync(AuthController.signin));
-Router.get("/refreshtoken", wrapAsync(AuthController.refreshToken));
 Router.post("/generateotp", wrapAsync(AuthController.generateOtp));
 
 // Admin Login
 Router.post("/adminlogin", wrapAsync(AuthController.adminLogin));
+
+// user and admin refreshToken
+Router.get("/refreshtoken", wrapAsync(AuthController.refreshToken));
+
+
 // Doctor Modules
 Router.get("/doctors", wrapAsync(DoctorController.getAllDoctors));
-// Token Refresh
-Router.get("/refresh", wrapAsync(AuthController.refreshToken));
 
 // user only Routes
 Router.get(
