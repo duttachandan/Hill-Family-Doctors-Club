@@ -14,12 +14,15 @@ Router.post("/generateotp", wrapAsync(AuthController.generateOtp));
 // Admin Login
 Router.post("/adminlogin", wrapAsync(AuthController.adminLogin));
 
+
 // user and admin refreshToken
 Router.get("/refreshtoken", wrapAsync(AuthController.refreshToken));
 
 
 // Doctor Modules
 Router.get("/doctors", wrapAsync(DoctorController.getAllDoctors));
+
+
 
 // user only Routes
 Router.get(
@@ -33,6 +36,9 @@ Router.post(
   verifyAccessToken,
   wrapAsync(DoctorController.ReqAppointment),
 );
+
+
+
 
 // Admin Only Routes
 Router.post(
