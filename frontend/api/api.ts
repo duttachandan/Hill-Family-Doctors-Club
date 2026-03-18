@@ -1,11 +1,7 @@
 import axios from "axios";
-import { loadEnvConfig } from "@next/env";
 
-const projectDir = process.cwd();
-loadEnvConfig(projectDir);
-
-const api = axios.create({
-  baseURL: `${process.env.NODE_ENV}`,
+export const api = axios.create({
+  baseURL: `${process.env.NEXT_PUBLIC_API_LINK}`,
   withCredentials: true,
 });
 

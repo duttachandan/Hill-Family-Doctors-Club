@@ -9,9 +9,10 @@ export default function Counter() {
     fetchDoctors();
     console.log(doctors);
   }, []);
+
   return (
     <section className="card-Section py-5">
-      <div className="px-3.75 mx-auto max-w-362.5">
+      <div className="container">
         <h2 className="text-3xl mb-3">Doctors List:</h2>
         <div className="flex -mx-3.75 flex-wrap items-center justify-center">
           {doctors &&
@@ -39,10 +40,18 @@ export default function Counter() {
                       {element.availableSlots[0]?.time}
                     </div>
                     <div>
-                      Paitent: <span className="text-lg text-red-400">{element.specialization}</span>
+                      Paitent:{" "}
+                      <span className="text-lg text-red-400">
+                        {element.specialization}
+                      </span>
                     </div>
                     <div className="flex justify-center items-center mt-2">
-                      <Link className="py-2 px-5 rounded-lg bg-green-500 text-white" href="">Take Appointment</Link>
+                      <Link
+                        className="py-2 px-5 rounded-lg bg-green-500 text-white"
+                        href=""
+                      >
+                        Take Appointment
+                      </Link>
                     </div>
                   </div>
                 </div>

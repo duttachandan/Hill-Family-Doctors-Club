@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <main>
       <section className="banner-sec min-h-50 flex items-center text-center bg-green-200">
-        <div className="px-3.75 max-w-362.5 mx-auto">
+        <div className="container">
           <h1 className="text-4xl">Welcome To Doctor's Club</h1>
         </div>
       </section>

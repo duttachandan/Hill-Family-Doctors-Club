@@ -4,9 +4,16 @@ body {
   overflow-x: hidden !important;
 }
 
-.font-space{
+.font-space {
   font-family: var(--font-space-grotesk);
 }
-.font-roboto{
+.font-roboto {
   font-family: var(--font-Roboto);
+}
+
+.container {
+  max-width: 1450px;
+  margin: 0 auto;
+  padding: 0 15px;
+  width: 100%;
 }
