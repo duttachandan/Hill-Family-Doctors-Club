@@ -6,13 +6,8 @@ import { type userCredential } from "@/@type/FormTypeCast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchema } from "@/utils/UserValidator";
 import { doctorStore } from "@/store/store";
-import React, { useEffect, useState } from "react";
-import Modal from "@/utils/Modal";
-
-type OTP = {
-  otp: number;
-  email: string;
-};
+import { useEffect, useState } from "react";
+import Modal from "@/components/signup/Modal";
 
 const page = () => {
   const [modal, setModal] = useState<boolean>(false);

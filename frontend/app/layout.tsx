@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Roboto, Space_Grotesk } from "next/font/google";
-import Navbar from "@/components/Layout/Navbar";
-import Footer from "@/components/Layout/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const geistRobot = Roboto({
   variable: "--font-Roboto",

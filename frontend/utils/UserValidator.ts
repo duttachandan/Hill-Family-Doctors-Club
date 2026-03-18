@@ -8,3 +8,13 @@ export const userSchema = yup.object({
     .min(8, "Password must be at least 8 characters Long")
     .matches(/[0-9]/, "Password should contain atleast one Number "),
 });
+
+
+export const otpSchema = yup.object({
+  otp: yup
+    .string()
+    .required()
+    .min(4, "minimum 4 digit required")
+    .max(4, "maximum 4 digit required")
+    .required("One Time Password is required"),
+});

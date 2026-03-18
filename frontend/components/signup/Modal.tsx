@@ -1,28 +1,10 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { otpSchema } from "../../utils/UserValidator";
+import type { ModalType, OTPType } from "@/@type/FormTypeCast";
 
-type AppState = typeof React.useState;
 
-type ModalType = {
-  modal: boolean;
-  setModal: AppState;
-  email: string;
-};
-
-type OTPType = {
-  otp: string;
-};
-
-const otpSchema = yup.object({
-  otp: yup
-    .string()
-    .required()
-    .min(4, "minimum 4 digit required")
-    .max(4, "maximum 4 digit required")
-    .required("One Time Password is required"),
-});
 
 const Modal: React.FC<ModalType> = ({ modal, setModal, email }) => {
   const {
