@@ -1,12 +1,22 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { otpSchema } from "../../utils/UserValidator";
 import type { ModalType, OTPType } from "@/@type/FormTypeCast";
+import { doctorStore } from "@/store/store";
+import { useRouter } from "next/navigation";
 
+const Modal: React.FC<ModalType> = ({
+  modal,
+  setModal,
+  setErrorModal,
+  email,
+}) => {
+  const router = useRouter();
+  const { user, UserOtpVerify } = doctorStore();
 
-
-const Modal: React.FC<ModalType> = ({ modal, setModal, email }) => {
   const {
     register,
     handleSubmit,
@@ -17,14 +27,27 @@ const Modal: React.FC<ModalType> = ({ modal, setModal, email }) => {
   });
 
   const onSubmit: SubmitHandler<OTPType> = async (data) => {
-    console.log(data);
     const formData = {
       email: email,
-      otp: data?.otp,
+      userOtp: data?.otp,
     };
-    console.log(formData);
+    await UserOtpVerify(formData);
+    console.log(user);
+    if (user == "OTP Incorrect") {
+      setErrorModal(true);
+    }
     setModal(false);
   };
+
+  useEffect(() => {
+    console.log(user);
+    if (user?.accessToken) {
+      localStorage.setItem("email", user?.email);
+      localStorage.setItem("accessToken", user?.accessToken);
+      localStorage.setItem("username", user?.username);
+      router.push("/");
+    }
+  }, [user]);
 
   return (
     <div

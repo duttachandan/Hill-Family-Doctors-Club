@@ -1,4 +1,4 @@
-import type { userCredential } from "./FormTypeCast";
+import type { userCredential, UserOtp } from "./FormTypeCast";
 
 export type SlotsTime = {
   date: string;
@@ -20,4 +20,5 @@ export type DoctorStore = {
   error: string | null;
   fetchDoctors: () => Promise<void>;
   UserRegister: (formData: userCredential) => Promise<void>;
+  UserOtpVerify: (formData: UserOtp) => Promise<void>;
 };

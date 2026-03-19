@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { getDoctorList } from "@/api/DoctorApi";
-import { userSignUp } from "@/api/authApi";
+import { userOtp, userSignUp } from "@/api/authApi";
 import type { DoctorStore } from "@/@type/StoreTypeCast";
-import { type userCredential } from "@/@type/FormTypeCast";
+import { type userCredential, type UserOtp } from "@/@type/FormTypeCast";
 
 export const doctorStore = create<DoctorStore>((set) => ({
   doctors: [],
@@ -22,9 +22,21 @@ export const doctorStore = create<DoctorStore>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await userSignUp(formData);
+      console.log(response);
       set({ loading: false, user: response });
     } catch (error) {
+      console.log(error);
       set({ doctors: [], error: error as string, loading: false });
+    }
+  },
+  UserOtpVerify: async (formData: UserOtp) => {
+    set({ loading: true });
+    try {
+      const response = await userOtp(formData);
+      console.log(response);
+      set({ loading: false, user: response });
+    } catch (error) {
+      set({ loading: false, error: error as string });
     }
   },
 }));
