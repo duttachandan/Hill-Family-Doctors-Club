@@ -39,6 +39,10 @@ app.use(cookieParser());
 const authRoutes = require("./app/routes/authRoutes");
 app.use("/api", authRoutes);
 
+// SEO Routes
+const seoRoutes = require('./app/routes/contentRoutes');
+app.use('/seo', seoRoutes);
+
 // 404 error handler
 app.use((req, res, next) => {
   res.status(404).json({
