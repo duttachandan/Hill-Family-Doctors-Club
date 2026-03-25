@@ -1,7 +1,7 @@
 const SeoModel = require('../model/seoSchema');
 const LogoModel = require('../model/logoSchema');
 const servicesModel = require('../model/servicescardSchema');
-const companyLogo = require('../model/companyLogoSchema');
+const CompanyLogo = require('../model/companyLogoSchema');
 const ExpressError = require('../utils/ExpressError');
 
 class SeoController {
@@ -65,7 +65,7 @@ class SeoController {
             imageArray: imageArray
         };
 
-        const response = await companyLogo.findOneAndUpdate(
+        const response = await CompanyLogo.findOneAndUpdate(
             { data: 'company-logo' },
             data,
             {
@@ -73,10 +73,28 @@ class SeoController {
                 returnDocument: 'after'
             }
         );
-        
+
         res.json({
             response
         })
+    }
+    async getSeoModel(req, res) {
+        const { name } = req.params;
+        if (!name) throw new ExpressError(404, "no content head found")
+        const response = await SeoModel.findOne({ dataType: name });
+        res.json(response);
+    }
+    async getNavLogo(req, res) {
+        const response = await LogoModel.find();
+        res.json(response);
+    }
+    async getServicesCard(req, res) {
+        const response = await servicesModel.find();
+        res.json(response)
+    }
+    async companyLogo(req, res) {
+        const response = await CompanyLogo.find();
+        res.json(response)
     }
 }
 
