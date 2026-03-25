@@ -5,6 +5,13 @@ export type SlotsTime = {
   time: string;
 };
 
+export type logo = {
+  data: string;
+  _id: string;
+  __v: number;
+  image: string;
+};
+
 export type Doctor = {
   _id: string;
   name: string;
@@ -16,9 +23,11 @@ export type Doctor = {
 export type DoctorStore = {
   doctors: Doctor[];
   user?: any;
+  logo: logo[] | null;
   loading: boolean;
   error: string | null;
   fetchDoctors: () => Promise<void>;
   UserRegister: (formData: userCredential) => Promise<void>;
   UserOtpVerify: (formData: UserOtp) => Promise<void>;
+  getLogo: () => Promise<void>;
 };

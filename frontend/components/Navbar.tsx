@@ -1,7 +1,16 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { doctorStore } from "@/store/store";
 
 const Navbar = () => {
+  const { logo, getLogo } = doctorStore();
+
+  useEffect(() => {
+    getLogo();
+  }, []);
+
   return (
     <header className="py-3 border-b border-green-500">
       <div className="mx-auto max-w-362.5 px-3.75">
@@ -9,9 +18,19 @@ const Navbar = () => {
           <div className="nav-logo">
             <Link
               href="/"
-              className="navbar-brand font-roboto text-green-500 text-2xl font-bold italic"
+              className="navbar-brand w-[215.72px] font-roboto text-green-500 text-2xl font-bold italic"
             >
-              Doctors Club
+              {logo ? (
+                <Image
+                  className="w-full object-cover h-full"
+                  width={215.72}
+                  height={100}
+                  src={logo[0]?.image}
+                  alt=""
+                />
+              ) : (
+                ""
+              )}
             </Link>
           </div>
           <div className="flex md:hidden ms-auto relative">
