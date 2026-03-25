@@ -5,8 +5,8 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 cloudinary.config({
     cloud_name: `${process.env.CLOUDINARY_NAME}`,
-    api_key:`${process.env.CLOUDINARY_API_KEY}`,
-    api_secret: `${process.env.CLOUDINARY_API_SECRET}` 
+    api_key: `${process.env.CLOUDINARY_API_KEY}`,
+    api_secret: `${process.env.CLOUDINARY_API_SECRET}`
 })
 
 const IMAGE_TYPE = ['jpeg', 'jpg', 'png', 'avif', 'gif'];
@@ -14,13 +14,16 @@ const IMAGE_TYPE = ['jpeg', 'jpg', 'png', 'avif', 'gif'];
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'some-folder-name',
+        folder: 'doctorshub',
         allowed_format: IMAGE_TYPE,
-        format: async (req, file) => 'png', // supports promises as well
-        public_id: (req, file) => 'computed-filename-using-request',
+        // format: async (req, file) => 'png', // supports promises as well
+        public_id: (req, file) => Date.now(),
     },
 });
 
 const imageUploader = multer({ storage: storage })
+
+console.log(imageUploader)
+
 
 module.exports = imageUploader;
