@@ -4,16 +4,21 @@ const { Schema } = mongoose;
 
 const SeoSchema = Schema({
     dataType: {
-        type: string
+        type: String,
+        unique: true,
+        lowercase: true,
     },
     heading1: {
-        type: string,
+        type: String,
     },
     heading2: {
-        type: string,
+        type: String,
     },
     paragraph: {
-        type: string
+        type: String,
+    },
+    image: {
+        type: String
     }
 });
 

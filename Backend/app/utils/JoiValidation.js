@@ -33,4 +33,12 @@ const DoctorSchemaValidator = Joi.object({
   ),
 });
 
+// const seoValidation = Joi.object({
+//   dataType: Joi.string(),
+//   heading1: Joi.string(),
+//   heading2: Joi.string(),
+//   paragraph: Joi.string(),
+//   image: Joi.string()
+// })
+
 module.exports = { UserSchemaValidator, DoctorSchemaValidator };

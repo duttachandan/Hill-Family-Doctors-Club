@@ -1,18 +1,82 @@
-
+const SeoModel = require('../model/seoSchema');
+const LogoModel = require('../model/logoSchema');
+const servicesModel = require('../model/servicescardSchema');
+const companyLogo = require('../model/companyLogoSchema');
+const ExpressError = require('../utils/ExpressError');
 
 class SeoController {
     async seoModel(req, res) {
         const { name } = req.params;
         const { heading1, heading2, paragraph } = req.body;
         const { path } = req.file;
-        console.log(req.file)
+
+        const data = {
+            dataType: name,
+            heading1: heading1,
+            heading2: heading2,
+            paragraph: paragraph,
+            image: path,
+        };
+
+        const response = await SeoModel.findOneAndUpdate(
+            { dataType: name },
+            data,
+            {
+                upsert: true,
+                returnDocument: "after",
+                setDefaultsOnStart: true
+            }
+        );
+        res.json(response);
+    }
+    async navLogo(req, res) {
+        const { path } = req?.file;
+        if (!path) throw ExpressError(404, "No Image Found");
+        const data = await LogoModel.findOneAndUpdate({
+            data: 'logo'
+        }, {
+            data: "logo",
+            image: path
+        }, {
+            upsert: true,
+            returnDocument: "after"
+        })
+        res.json(data);
+    }
+    async servicesCard(req, res) {
+        const { path } = req.file;
+        const { cardHeader, paragraph } = req.body;
+        const data = new servicesModel({
+            icon: path,
+            cardHeader: cardHeader,
+            paragraph: paragraph
+        })
+        const response = await data.save();
+        res.json(response);
+    }
+    async companyLogo(req, res) {
+        const imageArray = [];
+        req.files.map((elm) => {
+            imageArray.push(elm.path)
+        })
+
+        const data = {
+            data: 'company-logo',
+            imageArray: imageArray
+        };
+
+        const response = await companyLogo.findOneAndUpdate(
+            { data: 'company-logo' },
+            data,
+            {
+                upsert: true,
+                returnDocument: 'after'
+            }
+        );
+        
         res.json({
-            name,
-            heading1,
-            heading2,
-            paragraph,
-            path
-        });
+            response
+        })
     }
 }
 
