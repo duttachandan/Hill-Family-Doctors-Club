@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Roboto, Space_Grotesk } from "next/font/google";
+import { Poppins } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const geistRobot = Roboto({
-  variable: "--font-Roboto",
-  subsets: ["latin"],
-});
-
-const geistGrotest = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
+const geistPoppins = Poppins({
+  variable: "--font-Poppins",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -26,9 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistGrotest.variable} ${geistRobot.variable} antialiased`}
-      >
+      <body className={`${geistPoppins.variable} antialiased`}>
         <Navbar />
         {children}
         <Footer />

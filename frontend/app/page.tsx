@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Coutner from "@/components/Home/Coutner";
 
 export default async function Home() {

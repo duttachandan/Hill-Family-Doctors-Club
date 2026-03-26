@@ -24,7 +24,6 @@ export const doctorStore = create<DoctorStore>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await userSignUp(formData);
-      console.log(response);
       set({ loading: false, user: response });
     } catch (error) {
       console.log(error);
@@ -35,7 +34,6 @@ export const doctorStore = create<DoctorStore>((set) => ({
     set({ loading: true });
     try {
       const response = await userOtp(formData);
-      console.log(response);
       set({ loading: false, user: response });
     } catch (error) {
       set({ loading: false, error: error as string });
@@ -45,7 +43,6 @@ export const doctorStore = create<DoctorStore>((set) => ({
     set({ loading: true });
     try {
       const response = await getLogoImage();
-      console.log(response);
       set({ loading: false, logo: response });
     } catch (error) {
       set({ loading: false, error: error as string });

@@ -7,7 +7,6 @@ export default function Counter() {
   const { doctors, fetchDoctors } = doctorStore();
   useEffect(() => {
     fetchDoctors();
-    console.log(doctors);
   }, []);
 
   return (
@@ -27,16 +26,16 @@ export default function Counter() {
                       Dr.{"  "}
                       <span className="text-2xl">{element.name}</span>
                     </div>
-                    <div className="font-roboto my-2">
+                    <div className="font-Poppins my-2">
                       Price :{"  "}
                       <span className="text-xl font-space text-green-500">
                         {element.fees}₹
                       </span>
                     </div>
-                    <div className="font-roboto">
+                    <div className="font-Poppins">
                       {element.availableSlots[0]?.date}
                     </div>
-                    <div className="font-roboto">
+                    <div className="font-Poppins">
                       {element.availableSlots[0]?.time}
                     </div>
                     <div>

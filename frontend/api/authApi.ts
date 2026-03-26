@@ -25,7 +25,6 @@ export const userOtp = async (formData: UserOtp) => {
       email: email,
       userOtp: userOtp,
     });
-    console.log(response);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

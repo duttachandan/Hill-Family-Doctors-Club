@@ -77,7 +77,7 @@ const page = () => {
                 <input
                   type="email"
                   placeholder="Ex: XYZ@gmail.com"
-                  className="w-full py-2 px-3 font-roboto text-xl border mb-3 rounded-md"
+                  className="w-full py-2 px-3 font-Poppins text-xl border mb-3 rounded-md"
                   {...register("email")}
                 />
                 <br />
@@ -85,7 +85,7 @@ const page = () => {
                 <input
                   type="password"
                   placeholder="Type Your Password"
-                  className="w-full py-2 px-3 text-xl font-roboto border mb-3 rounded-md"
+                  className="w-full py-2 px-3 text-xl font-Poppins border mb-3 rounded-md"
                   {...register("password")}
                 />
                 <br />
