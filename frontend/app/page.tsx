@@ -1,4 +1,5 @@
 import Coutner from "@/components/Home/Coutner";
+import Banner from "@/components/Home/Banner";
 
 export default async function Home() {
   // await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -6,11 +7,7 @@ export default async function Home() {
 
   return (
     <main>
-      <section className="banner-sec min-h-50 flex items-center text-center bg-green-200">
-        <div className="container">
-          <h1 className="text-4xl">Welcome To Doctor's Club</h1>
-        </div>
-      </section>
+      <Banner/>
       <Coutner />
     </main>
   );

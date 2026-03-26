@@ -1,7 +1,12 @@
 @import "tailwindcss";
 
-body {
+body,
+html {
   overflow-x: hidden !important;
+}
+
+a {
+  display: inline-block;
 }
 
 .font-Poppins {

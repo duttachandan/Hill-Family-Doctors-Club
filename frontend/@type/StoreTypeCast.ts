@@ -12,6 +12,16 @@ export type logo = {
   image: string;
 };
 
+export type Banner = {
+  _id: string;
+  dataType: string;
+  __v: number;
+  heading1?: string;
+  heading2?: string;
+  image?: string;
+  paragraph?: string;
+};
+
 export type Doctor = {
   _id: string;
   name: string;
@@ -23,6 +33,7 @@ export type Doctor = {
 export type DoctorStore = {
   doctors: Doctor[];
   user?: any;
+  banner: Banner | null;
   logo: logo[] | null;
   loading: boolean;
   error: string | null;
@@ -30,4 +41,5 @@ export type DoctorStore = {
   UserRegister: (formData: userCredential) => Promise<void>;
   UserOtpVerify: (formData: UserOtp) => Promise<void>;
   getLogo: () => Promise<void>;
+  getBanner: () => Promise<void>;
 };
