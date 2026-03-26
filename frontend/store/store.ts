@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { getDoctorList } from "@/api/DoctorApi";
 import { userOtp, userSignUp } from "@/api/authApi";
-import { getBannerContent, getLogoImage } from "@/api/getContentApi";
+import { getBannerContent, getLogoImage, getAboutContent } from "@/api/getContentApi";
 import type { DoctorStore } from "@/@type/StoreTypeCast";
 import { type userCredential, type UserOtp } from "@/@type/FormTypeCast";
 
@@ -10,6 +10,7 @@ export const doctorStore = create<DoctorStore>((set) => ({
   user: null,
   logo: null,
   banner: null,
+  about: null,
   loading: false,
   error: null,
   fetchDoctors: async () => {
@@ -54,6 +55,15 @@ export const doctorStore = create<DoctorStore>((set) => ({
     try {
       const response = await getBannerContent();
       set({ loading: false, banner: response });
+    } catch (error) {
+      set({ loading: false, error: error as string });
+    }
+  },
+  getAbout: async () => {
+    set({ loading: true });
+    try {
+      const response = await getAboutContent();
+      set({ loading: false, about: response });
     } catch (error) {
       set({ loading: false, error: error as string });
     }
