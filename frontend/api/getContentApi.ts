@@ -41,3 +41,18 @@ export const getAboutContent = async () => {
     return error;
   }
 };
+
+export const getQuickCounterContent = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_LINK}/seo/header/getcontent/quickcounter`,
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error?.response?.data;
+    }
+    return error;
+  }
+};

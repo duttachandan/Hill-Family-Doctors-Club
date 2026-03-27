@@ -5,36 +5,36 @@ import Image from "next/image";
 
 const About = () => {
   const { getAbout, about } = doctorStore();
+
   useEffect(() => {
     getAbout();
-    console.log(about);
   }, []);
 
   return (
-    <section>
+    <section className="py-12.5">
       <div className="container">
         {about ? (
           <>
             <div className="subtitle text-[20px] lg:text-[25px] text-center">
-              {about?.heading1}
+              {about?.heading2}
             </div>
-            <h2 className="text-[28px] lg:text-[40px] text-center">
+            <h2 className="text-[28px] font-medium lg:text-[40px] mt-3 mb-22.5 text-center capitalize">
               {about?.heading1}
             </h2>
             <div className="flex flex-wrap -mx-3.75 items-center">
               <div className="w-full lg:w-1/2 px-3.75">
-                <div className="image">
+                <div className="max-w-139.5 mx-auto overflow-hidden rounded-lg">
                   <Image
-                    width={100}
-                    height={100}
+                    width={558}
+                    height={550}
                     className="w-full h-full object-contain"
                     src={about?.image as string}
                     alt=""
                   />
                 </div>
               </div>
-              <div className="w-full lg:w-1/2 px-3.75">
-                <p className="text-[16px]">{about?.paragraph}</p>
+              <div className="w-full lg:w-1/2 px-3.75 mt-8 lg:mt-0 text-center lg:text-start">
+                <p className="text-[16px] lg:text-[25px]">{about?.paragraph}</p>
               </div>
             </div>
           </>

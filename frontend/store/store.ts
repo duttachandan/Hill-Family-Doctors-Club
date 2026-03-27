@@ -1,7 +1,12 @@
 import { create } from "zustand";
 import { getDoctorList } from "@/api/DoctorApi";
 import { userOtp, userSignUp } from "@/api/authApi";
-import { getBannerContent, getLogoImage, getAboutContent } from "@/api/getContentApi";
+import {
+  getBannerContent,
+  getLogoImage,
+  getAboutContent,
+  getQuickCounterContent,
+} from "@/api/getContentApi";
 import type { DoctorStore } from "@/@type/StoreTypeCast";
 import { type userCredential, type UserOtp } from "@/@type/FormTypeCast";
 
@@ -11,6 +16,7 @@ export const doctorStore = create<DoctorStore>((set) => ({
   logo: null,
   banner: null,
   about: null,
+  quickCounter: null,
   loading: false,
   error: null,
   fetchDoctors: async () => {
@@ -64,6 +70,15 @@ export const doctorStore = create<DoctorStore>((set) => ({
     try {
       const response = await getAboutContent();
       set({ loading: false, about: response });
+    } catch (error) {
+      set({ loading: false, error: error as string });
+    }
+  },
+  getQuickCounter: async () => {
+    set({ loading: true });
+    try {
+      const response = await getQuickCounterContent();
+      set({ loading: false, quickCounter: response });
     } catch (error) {
       set({ loading: false, error: error as string });
     }

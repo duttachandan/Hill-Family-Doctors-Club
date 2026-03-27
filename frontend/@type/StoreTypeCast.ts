@@ -12,17 +12,7 @@ export type logo = {
   image: string;
 };
 
-export type Banner = {
-  _id: string;
-  dataType: string;
-  __v: number;
-  heading1?: string;
-  heading2?: string;
-  image?: string;
-  paragraph?: string;
-};
-
-export type About = {
+export type ContentMap = {
   _id: string;
   dataType: string;
   __v: number;
@@ -43,8 +33,9 @@ export type Doctor = {
 export type DoctorStore = {
   doctors: Doctor[];
   user?: any;
-  banner: Banner | null;
-  about: About | null;
+  banner: ContentMap | null;
+  about: ContentMap | null;
+  quickCounter: ContentMap | null;
   logo: logo[] | null;
   loading: boolean;
   error: string | null;
@@ -54,4 +45,5 @@ export type DoctorStore = {
   getLogo: () => Promise<void>;
   getBanner: () => Promise<void>;
   getAbout: () => Promise<void>;
+  getQuickCounter: () => Promise<void>;
 };

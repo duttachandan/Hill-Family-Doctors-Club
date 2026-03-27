@@ -6,6 +6,7 @@ import Image from "next/image";
 
 const Banner = () => {
   const { getBanner, banner } = doctorStore();
+  
   useEffect(() => {
     getBanner();
   }, []);
@@ -20,10 +21,10 @@ const Banner = () => {
                 <div className="text-[24px] lg:text-[35px]">
                   {banner.heading2}
                 </div>
-                <h1 className="text-[32px] lg:text-[64px] lg:my-8 my-4 font-medium font-Poppins">
+                <h1 className="text-[32px] lg:text-[64px] my-3 font-medium font-Poppins capitalize">
                   {banner.heading1}
                 </h1>
-                <p className="text-[16px] lg:text-[25px]">{banner.paragraph}</p>
+                <p className="text-[18px] lg:text-[25px]">{banner.paragraph}</p>
                 <Link
                   className="py-3.5 px-4 bg-[#7CC343] transition duration-300
               hover:bg-[#65a035] rounded-lg text-white mt-4"
