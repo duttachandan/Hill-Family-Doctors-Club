@@ -6,6 +6,7 @@ import {
   getLogoImage,
   getAboutContent,
   getQuickCounterContent,
+  getServices,
 } from "@/api/getContentApi";
 import type { DoctorStore } from "@/@type/StoreTypeCast";
 import { type userCredential, type UserOtp } from "@/@type/FormTypeCast";
@@ -16,6 +17,7 @@ export const doctorStore = create<DoctorStore>((set) => ({
   logo: null,
   banner: null,
   about: null,
+  Services: null,
   quickCounter: null,
   loading: false,
   error: null,
@@ -79,6 +81,16 @@ export const doctorStore = create<DoctorStore>((set) => ({
     try {
       const response = await getQuickCounterContent();
       set({ loading: false, quickCounter: response });
+    } catch (error) {
+      set({ loading: false, error: error as string });
+    }
+  },
+  getServices: async () => {
+    set({ loading: true });
+    try {
+      const response = await getServices();
+      console.log(response);
+      set({ Services: response, loading: false });
     } catch (error) {
       set({ loading: false, error: error as string });
     }

@@ -47,7 +47,20 @@ export const getQuickCounterContent = async () => {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_LINK}/seo/header/getcontent/quickcounter`,
     );
-    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error?.response?.data;
+    }
+    return error;
+  }
+};
+
+export const getServices = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_LINK}/seo/header/getcontent/servicescard`,
+    );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

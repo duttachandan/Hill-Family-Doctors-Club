@@ -30,11 +30,23 @@ export type Doctor = {
   availableSlots: SlotsTime[];
 };
 
+export type services = {
+  content: ContentMap;
+  services: {
+    _id: string;
+    icon: string;
+    cardHeader: string;
+    paragraph: string;
+    __v: number;
+  }[];
+};
+
 export type DoctorStore = {
   doctors: Doctor[];
   user?: any;
   banner: ContentMap | null;
   about: ContentMap | null;
+  Services: services | null;
   quickCounter: ContentMap | null;
   logo: logo[] | null;
   loading: boolean;
@@ -46,4 +58,5 @@ export type DoctorStore = {
   getBanner: () => Promise<void>;
   getAbout: () => Promise<void>;
   getQuickCounter: () => Promise<void>;
+  getServices: () => Promise<void>;
 };

@@ -46,6 +46,7 @@ class SeoController {
     async servicesCard(req, res) {
         const { path } = req.file;
         const { cardHeader, paragraph } = req.body;
+        console.log(path, cardHeader, paragraph);
         const data = new servicesModel({
             icon: path,
             cardHeader: cardHeader,
