@@ -15,7 +15,7 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'doctorshub',
-        allowed_format: IMAGE_TYPE,
+        allowed_formats: IMAGE_TYPE,
         // format: async (req, file) => 'png', // supports promises as well
         public_id: (req, file) => Date.now(),
     },

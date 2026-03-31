@@ -8,14 +8,14 @@ class SeoController {
     async seoModel(req, res) {
         const { name } = req.params;
         const { heading1, heading2, paragraph } = req.body;
-        const { path } = req.file;
+        const path = req.file?.path;
 
         const data = {
             dataType: name,
             heading1: heading1,
             heading2: heading2,
             paragraph: paragraph,
-            image: path,
+            ...(path && { image: path })
         };
 
         const response = await SeoModel.findOneAndUpdate(
@@ -24,7 +24,7 @@ class SeoController {
             {
                 upsert: true,
                 returnDocument: "after",
-                setDefaultsOnStart: true
+                setDefaultsOnInsert: true
             }
         );
         res.json(response);
@@ -89,8 +89,13 @@ class SeoController {
         res.json(response);
     }
     async getServicesCard(req, res) {
+        const servicesContent = await SeoModel.findOne({ dataType: 'services' });
         const response = await servicesModel.find();
-        res.json(response)
+        const data = {
+            content: servicesContent,
+            services: response,
+        }
+        res.json(data)
     }
     async companyLogo(req, res) {
         const response = await CompanyLogo.find();
