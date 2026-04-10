@@ -1,4 +1,4 @@
-import Coutner from "@/components/Home/Coutner";
+import Coutner from "@/components/Home/Doctors";
 import Banner from "@/components/Home/Banner";
 import About from "@/components/Home/About";
 import QuickCounter from "@/components/Home/QuickCounter";

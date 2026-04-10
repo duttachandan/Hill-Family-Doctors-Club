@@ -27,6 +27,9 @@ export type Doctor = {
   name: string;
   specialization: string;
   fees: number;
+  experience: number;
+  center: string;
+  Image: string;
   availableSlots: SlotsTime[];
 };
 

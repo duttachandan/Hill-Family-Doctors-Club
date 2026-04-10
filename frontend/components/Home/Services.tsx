@@ -61,9 +61,9 @@ const Services = () => {
                             d="M17.5 20L22.5 15M22.5 15L17.5 10M22.5 15H7.5"
                             stroke="#252525"
                             strokeWidth="1.5"
-                            stroke-miterlimit="10"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeMiterlimit="10"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           />
                         </svg>
                       </Link>

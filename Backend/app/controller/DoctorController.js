@@ -24,6 +24,7 @@ class DoctorController {
       throw new ExpressError(404, "no doctor found on this id");
     res.json(foundDoctorId);
   }
+  
 
   // Admin Routes
   async createDoctor(req, res) {
@@ -63,13 +64,15 @@ class DoctorController {
 
   async EditDoctor(req, res) {
     const { id } = req.params;
-    const { name, specialization, fees, availableSlots } = req.body;
+    const { name, specialization, fees, availableSlots, experience, center } = req.body;
     if (!id) throw new ExpressError(404, "no id found");
     const payload = {
       name,
       specialization,
       fees,
       availableSlots,
+      experience,
+      center
     };
     console.log(payload);
     const { error } = await DoctorSchemaValidator.validate(payload);
