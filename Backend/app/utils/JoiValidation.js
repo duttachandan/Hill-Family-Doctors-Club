@@ -11,6 +11,9 @@ const DoctorSchemaValidator = Joi.object({
   name: Joi.string().required(),
   specialization: Joi.string().required(),
   fees: Joi.number().required(),
+  experience: Joi.number().required(),
+  center: Joi.string().required(),
+  Image: Joi.string().required(),
   availableSlots: Joi.array().items(
     Joi.object({
       date: Joi.string()

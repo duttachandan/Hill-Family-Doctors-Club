@@ -23,7 +23,7 @@ const About = () => {
             </h2>
             <div className="flex flex-wrap -mx-3.75 items-center">
               <div className="w-full lg:w-1/2 px-3.75">
-                <div className="max-w-139.5 mx-auto overflow-hidden rounded-lg">
+                <div className="lg:max-w-139.5 mx-auto overflow-hidden rounded-lg">
                   <Image
                     width={558}
                     height={550}

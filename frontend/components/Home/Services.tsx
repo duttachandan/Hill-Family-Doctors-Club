@@ -37,9 +37,13 @@ const Services = () => {
                           alt={elem.cardHeader}
                           className="rounded-full"
                         />
-                        <h3 className="ml-5 text-[25px] font-Poppins font-medium">{elem.cardHeader}</h3>
+                        <h3 className="ml-5 text-[25px] font-Poppins font-medium">
+                          {elem.cardHeader}
+                        </h3>
                       </div>
-                      <div className="services-paragraph text-[18px] mb-5">{elem.paragraph}</div>
+                      <div className="services-paragraph text-[18px] mb-5">
+                        {elem.paragraph}
+                      </div>
                       <Link
                         style={{ display: "flex" }}
                         className="items-center"

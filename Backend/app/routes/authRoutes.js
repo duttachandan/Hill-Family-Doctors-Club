@@ -6,6 +6,8 @@ const AuthController = require("../controller/AuthController");
 const wrapAsync = require("../utils/WrapAsync");
 const DoctorController = require("../controller/DoctorController");
 
+const ImageUploader = require('../utils/ImageCloudinary');
+
 // user Login
 Router.post("/login", wrapAsync(AuthController.login));
 Router.post("/register", wrapAsync(AuthController.signin));
@@ -39,10 +41,10 @@ Router.post(
 
 
 
-
 // Admin Only Routes
 Router.post(
   "/createdoctors",
+  ImageUploader.single('Image'),
   verifyAdminToken,
   wrapAsync(DoctorController.createDoctor),
 );

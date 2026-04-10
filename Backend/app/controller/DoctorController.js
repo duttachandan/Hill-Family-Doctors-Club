@@ -27,13 +27,20 @@ class DoctorController {
 
   // Admin Routes
   async createDoctor(req, res) {
-    const { name, specialization, fees, availableSlots } = req.body;
+    const { name, specialization, fees, slots, experience, center } = req.body;
+    const { path } = req.file;
+    const availableSlots = JSON.parse(slots);
+    const Image = path;
     const payload = {
       name,
       specialization,
       fees,
+      Image,
       availableSlots,
+      experience,
+      center
     };
+
     const { error } = await DoctorSchemaValidator.validate(payload);
     if (error) throw new ExpressError(404, error.message);
 
