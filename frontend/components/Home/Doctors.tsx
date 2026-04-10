@@ -24,14 +24,14 @@ export default function Counter() {
             doctors.map((element, index) => {
               return (
                 <div
-                  className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-3.75 h-full mb-4"
+                  className="w-full md:w-1/2 lg:w-1/4 px-3.75 h-full mb-4"
                   key={index}
                 >
                   <div className="card border rounded-lg p-2 h-full">
                     <div className="image w-full h-65 rounded-lg">
                       <Image
                         width={300}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-top"
                         height={300}
                         src={element?.Image}
                         alt={element?.name}
