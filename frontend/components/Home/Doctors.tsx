@@ -37,7 +37,7 @@ export default function Counter() {
                         alt={element?.name}
                       />
                     </div>
-                    <div className="text-center">
+                    <div className="text-center mt-3">
                       <h3 className="text-lg lg:text-xl font-Poppins">
                         {element?.name}
                       </h3>
