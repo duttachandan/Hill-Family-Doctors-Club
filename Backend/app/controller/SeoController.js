@@ -2,6 +2,9 @@ const SeoModel = require('../model/seoSchema');
 const LogoModel = require('../model/logoSchema');
 const servicesModel = require('../model/servicescardSchema');
 const CompanyLogo = require('../model/companyLogoSchema');
+const testimonialSchema = require('../model/testimonialsSchema');
+const { testimonialValidator } = require('../utils/JoiValidation');
+
 const ExpressError = require('../utils/ExpressError');
 
 class SeoController {
@@ -44,9 +47,8 @@ class SeoController {
         res.json(data);
     }
     async servicesCard(req, res) {
-        const { path } = req.file;
+        const { path } = req.file; // fetching the image
         const { cardHeader, paragraph } = req.body;
-        console.log(path, cardHeader, paragraph);
         const data = new servicesModel({
             icon: path,
             cardHeader: cardHeader,
@@ -101,6 +103,23 @@ class SeoController {
     async companyLogo(req, res) {
         const response = await CompanyLogo.find();
         res.json(response)
+    }
+    async testimonialCard(req, res) {
+        const { clientName, rating, clientComment } = req.body;
+        const { path } = req.file;
+        const clientImage = path;
+        const testimonial = {
+            clientName,
+            clientImage,
+            rating,
+            clientComment
+        }
+        const { error } = testimonialValidator.validate(testimonial);
+        if (error) throw new ExpressError(404, error.message);
+
+        const response = await testimonialSchema.insertMany(testimonial);
+        if (!response) throw new ExpressError(404, response.message)
+        res.json(response);
     }
 }
 
