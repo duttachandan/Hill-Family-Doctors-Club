@@ -121,6 +121,17 @@ class SeoController {
         if (!response) throw new ExpressError(404, response.message)
         res.json(response);
     }
+    async getTestimonials(req, res) {
+        const header = await SeoModel.findOne({ dataType: 'testimonials' });
+        if (!header) throw new ExpressError(404, "no heading found for testimonials")
+        const testimonials = await testimonialSchema.find();
+        if (!testimonials) throw new ExpressError(404, 'no testimonials found')
+        const response = {
+            header,
+            testimonials
+        }
+        res.json(response);
+    }
 }
 
 module.exports = new SeoController();
