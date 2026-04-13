@@ -3,6 +3,7 @@ import Banner from "@/components/Home/Banner";
 import About from "@/components/Home/About";
 import QuickCounter from "@/components/Home/QuickCounter";
 import Services from "@/components/Home/Services";
+import Blogs from "@/components/Home/Blogs";
 
 export default async function Home() {
   // await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -15,6 +16,7 @@ export default async function Home() {
       <QuickCounter />
       <Services />
       <Coutner />
+      <Blogs/>
     </main>
   );
 }

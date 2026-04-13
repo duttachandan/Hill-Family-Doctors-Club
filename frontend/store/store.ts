@@ -7,6 +7,7 @@ import {
   getAboutContent,
   getQuickCounterContent,
   getServices,
+  getBlogs,
 } from "@/api/getContentApi";
 import type { DoctorStore } from "@/@type/StoreTypeCast";
 import { type userCredential, type UserOtp } from "@/@type/FormTypeCast";
@@ -19,6 +20,7 @@ export const doctorStore = create<DoctorStore>((set) => ({
   about: null,
   Services: null,
   quickCounter: null,
+  blogs: null,
   loading: false,
   error: null,
   fetchDoctors: async () => {
@@ -91,6 +93,15 @@ export const doctorStore = create<DoctorStore>((set) => ({
       const response = await getServices();
       console.log(response);
       set({ Services: response, loading: false });
+    } catch (error) {
+      set({ loading: false, error: error as string });
+    }
+  },
+  getBlogs: async () => {
+    set({ loading: true });
+    try {
+      const response = await getBlogs();
+      set({ loading: false, blogs: response });
     } catch (error) {
       set({ loading: false, error: error as string });
     }

@@ -69,3 +69,18 @@ export const getServices = async () => {
     return error;
   }
 };
+
+export const getBlogs = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_LINK}/seo/header/getcontent/blog`,
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error?.message;
+    }
+    return error;
+  }
+};

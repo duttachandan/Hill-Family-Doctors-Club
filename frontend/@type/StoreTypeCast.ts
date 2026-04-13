@@ -44,6 +44,36 @@ export type services = {
   }[];
 };
 
+export type getBlogs = {
+  _id: string;
+  blogImage: string;
+  blogContent: string;
+  blogTitle: string;
+};
+
+/*
+"getHeadingBlogs": {
+        "_id": "69dd3149f595fa37e511a8be",
+        "dataType": "blog",
+        "__v": 0,
+        "heading1": "Our Recent Blogs",
+        "heading2": "Blogs"
+    },
+    "getBlogs": [
+        {
+            "_id": "69dd31beb7366f3c87073e4b",
+            "blogImage": "https://res.cloudinary.com/douzjjrn3/image/upload/v1776103869/doctorshub/1776103867621.png",
+            "blogContent": "Lorem ipsum dolor sit amet consectetur. Libero adipiscing morbi diam neque pulvinar id metus erat nisi. Ac massa lectus vel nec nisl sed. Tellus pulvinar velit scelerisque ut. Velit placerat tellus.",
+            "blogTitle": "Unlock Your Best Self: The Power of Medical Weight\nLoss at Hill Family Medicine",
+            "__v": 0
+        },
+*/
+
+export type blogs = {
+  getHeadingBlogs: ContentMap;
+  getBlogs: getBlogs;
+};
+
 export type DoctorStore = {
   doctors: Doctor[];
   user?: any;
@@ -51,6 +81,7 @@ export type DoctorStore = {
   about: ContentMap | null;
   Services: services | null;
   quickCounter: ContentMap | null;
+  blogs: blogs | null;
   logo: logo[] | null;
   loading: boolean;
   error: string | null;
@@ -62,4 +93,5 @@ export type DoctorStore = {
   getAbout: () => Promise<void>;
   getQuickCounter: () => Promise<void>;
   getServices: () => Promise<void>;
+  getBlogs: () => Promise<void>;
 };
