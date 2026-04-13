@@ -27,7 +27,7 @@ export default function Counter() {
                   className="w-full md:w-1/2 lg:w-1/4 px-3.75 h-full mb-4"
                   key={index}
                 >
-                  <div className="card border rounded-lg p-2 h-full">
+                  <div className="card shadow-xl rounded-lg p-2 h-full">
                     <div className="image w-full h-65 rounded-lg">
                       <Image
                         width={300}

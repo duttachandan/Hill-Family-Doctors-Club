@@ -75,7 +75,6 @@ export const getBlogs = async () => {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_LINK}/seo/header/getcontent/blog`,
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

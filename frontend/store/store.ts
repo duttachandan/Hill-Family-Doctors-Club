@@ -91,7 +91,6 @@ export const doctorStore = create<DoctorStore>((set) => ({
     set({ loading: true });
     try {
       const response = await getServices();
-      console.log(response);
       set({ Services: response, loading: false });
     } catch (error) {
       set({ loading: false, error: error as string });
@@ -101,6 +100,7 @@ export const doctorStore = create<DoctorStore>((set) => ({
     set({ loading: true });
     try {
       const response = await getBlogs();
+      console.log(response);
       set({ loading: false, blogs: response });
     } catch (error) {
       set({ loading: false, error: error as string });
