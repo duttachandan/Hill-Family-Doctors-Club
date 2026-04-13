@@ -3,7 +3,8 @@ const LogoModel = require('../model/logoSchema');
 const servicesModel = require('../model/servicescardSchema');
 const CompanyLogo = require('../model/companyLogoSchema');
 const testimonialSchema = require('../model/testimonialsSchema');
-const { testimonialValidator } = require('../utils/JoiValidation');
+const blogSchema = require('../model/blogSchema');
+const { testimonialValidator, blogValidator } = require('../utils/JoiValidation');
 
 const ExpressError = require('../utils/ExpressError');
 
@@ -132,6 +133,32 @@ class SeoController {
         }
         res.json(response);
     }
+    async blogs(req, res) {
+        const { blogTitle, blogContent } = req.body;
+        const { path } = req.file;
+        const blogImage = path;
+        const blogObj = {
+            blogTitle,
+            blogContent,
+            blogImage
+        }
+        const { error } = blogValidator.validate(blogObj);
+        if (error) throw new ExpressError(404, error.message);
+        const submitBlog = await blogSchema.insertMany(blogObj);
+        if (!submitBlog) throw new ExpressError(404, 'Problem submiting blog');
+    }
+    async getBlogs(req, res) {
+        const getHeadingBlogs = await SeoModel.findOne({ dataType: 'blog' });
+        if (!getHeadingBlogs) throw new ExpressError(404, 'Something went wrong while fetching header of the Blog');
+        const getBlogs = await blogSchema.find();
+        if (!getBlogs) throw new ExpressError(404, 'Something Went Wrong while fetching GetBlogs');
+        const blogsObj = {
+            getHeadingBlogs,
+            getBlogs
+        }
+        res.json(blogsObj);
+    }
 }
+
 
 module.exports = new SeoController();

@@ -43,8 +43,14 @@ const testimonialValidator = Joi.object({
   clientComment: Joi.string().required(),
 })
 
+const blogValidator = Joi.object({
+  blogTitle: Joi.string().required(),
+  blogContent: Joi.string().required(),
+  blogImage: Joi.string(),
+})
 
 
 
-module.exports = { UserSchemaValidator, DoctorSchemaValidator, testimonialValidator };
+
+module.exports = { UserSchemaValidator, DoctorSchemaValidator, blogValidator, testimonialValidator };
 
