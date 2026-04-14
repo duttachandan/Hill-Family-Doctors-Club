@@ -1,5 +1,6 @@
 "use client";
 import { doctorStore } from "@/store/store";
+import cloudinaryImageConverter from "@/utils/cloudinaryImage";
 import { useEffect } from "react";
 import Image from "next/image";
 
@@ -27,8 +28,11 @@ const About = () => {
                   <Image
                     width={558}
                     height={550}
+                    loading="eager"
+                    fetchPriority="high"
+                    quality={50}
                     className="w-full h-full object-contain"
-                    src={about?.image as string}
+                    src={cloudinaryImageConverter(about?.image as string, {})}
                     alt=""
                   />
                 </div>

@@ -3,6 +3,7 @@ import { doctorStore } from "@/store/store";
 import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import cloudinaryImageConverter from "@/utils/cloudinaryImage";
 
 export default function Counter() {
   const { doctors, fetchDoctors } = doctorStore();
@@ -33,7 +34,10 @@ export default function Counter() {
                         width={300}
                         className="w-full h-full object-cover object-top"
                         height={300}
-                        src={element?.Image}
+                        loading="eager"
+                        fetchPriority="high"
+                        quality={50}
+                        src={cloudinaryImageConverter(element?.Image, {})}
                         alt={element?.name}
                       />
                     </div>

@@ -1,16 +1,17 @@
 "use client";
 import { doctorStore } from "@/store/store";
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
+import cloudinaryImageConverter from "@/utils/cloudinaryImage";
 import Link from "next/link";
 import Image from "next/image";
 
 const Banner = () => {
   const { getBanner, banner } = doctorStore();
-  
+
   useEffect(() => {
     getBanner();
   }, []);
-  
+
   return (
     <section className="py-10 lg:py-25">
       <div className="container">
@@ -44,7 +45,12 @@ const Banner = () => {
                   width={639.76}
                   height={100}
                   className="w-full h-fit object-cover"
-                  src={banner?.image as string}
+                  loading="eager"
+                  fetchPriority="high"
+                  src={cloudinaryImageConverter(banner?.image as string, {
+                    width: 640,
+                  })}
+                  quality={50}
                   alt=""
                 />
               </div>

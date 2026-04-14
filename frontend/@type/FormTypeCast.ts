@@ -5,7 +5,7 @@ export type userCredential = {
   password: string;
 };
 
-export type AppState = typeof React.useState;
+export type AppState = React.Dispatch<React.SetStateAction<boolean>>;
 
 export type ModalType = {
   modal: boolean;

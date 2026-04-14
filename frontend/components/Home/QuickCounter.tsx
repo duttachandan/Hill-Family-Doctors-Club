@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { doctorStore } from "@/store/store";
 import Link from "next/link";
 import Image from "next/image";
+import cloudinaryImageConverter from "@/utils/cloudinaryImage";
 
 const QuickCounter = () => {
   const { getQuickCounter, quickCounter } = doctorStore();
@@ -36,9 +37,14 @@ const QuickCounter = () => {
                 <Image
                   width={691}
                   height={691}
-                  quality={100}
+                  quality={50}
+                  loading="eager"
+                  fetchPriority="high"
                   className="w-full h-full object-contain"
-                  src={quickCounter?.image as string}
+                  src={cloudinaryImageConverter(
+                    quickCounter?.image as string,
+                    {},
+                  )}
                   alt=""
                 />
               </div>

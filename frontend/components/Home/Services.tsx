@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { doctorStore } from "@/store/store";
 import Link from "next/link";
 import Image from "next/image";
+import cloudinaryImageConverter from "@/utils/cloudinaryImage";
 
 const Services = () => {
   const { Services, getServices } = doctorStore();
@@ -33,7 +34,10 @@ const Services = () => {
                         <Image
                           height={82}
                           width={82}
-                          src={elem.icon}
+                          loading="eager"
+                          fetchPriority="high"
+                          quality={50}
+                          src={cloudinaryImageConverter(elem.icon, {})}
                           alt={elem.cardHeader}
                           className="rounded-full"
                         />

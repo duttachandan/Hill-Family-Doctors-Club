@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { doctorStore } from "@/store/store";
 import Image from "next/image";
 import Link from "next/link";
+import cloudinaryImageConverter from "@/utils/cloudinaryImage";
 
 const Blogs = () => {
   const { blogs, getBlogs } = doctorStore();
@@ -35,7 +36,10 @@ const Blogs = () => {
                           width={529}
                           className="w-full h-full object-cover rounded-lg"
                           height={245}
-                          src={data.blogImage}
+                          src={cloudinaryImageConverter(data.blogImage, {})}
+                          loading="eager"
+                          fetchPriority="high"
+                          quality={50}
                           alt={data.blogTitle}
                         />
                       </div>
@@ -46,7 +50,12 @@ const Blogs = () => {
                         <p className="font-Poppins md:text-[18px] mb-3.5">
                           {data.blogContent}
                         </p>
-                        <Link className="text-[20px] font-semibold" href={`/${index}`}>Read More</Link>
+                        <Link
+                          className="text-[20px] font-semibold"
+                          href={`/${index}`}
+                        >
+                          Read More
+                        </Link>
                       </div>
                     </div>
                   </div>
