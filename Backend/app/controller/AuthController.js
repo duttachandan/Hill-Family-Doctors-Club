@@ -110,7 +110,7 @@ class AuthController {
     
     res.json({
       email: saveData.email,
-      useranme: saveData.username,
+      username: saveData.username,
       accessToken,
     });
   }
