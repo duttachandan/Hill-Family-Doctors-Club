@@ -23,3 +23,9 @@ a {
 .navbar-collapsed {
   transition: 0.5s linear !important;
 }
+
+.profile {
+  cursor: pointer;
+  position:relative;
+}
+

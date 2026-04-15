@@ -32,7 +32,6 @@ const Modal: React.FC<ModalType> = ({
       userOtp: data?.otp,
     };
     await UserOtpVerify(formData);
-    console.log(user);
     if (user == "OTP Incorrect") {
       setErrorModal(true);
     }
@@ -40,7 +39,6 @@ const Modal: React.FC<ModalType> = ({
   };
 
   useEffect(() => {
-    console.log(user);
     if (user?.accessToken) {
       localStorage.setItem("email", user?.email);
       localStorage.setItem("accessToken", user?.accessToken);

@@ -33,3 +33,15 @@ export const userOtp = async (formData: UserOtp) => {
     return error;
   }
 };
+
+export const verfiyUser = async (formData: userCredential) => {
+  const { email, password } = formData;
+  try {
+    const response = await api.post('/')
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error?.message;
+    }
+    return error;
+  }
+};

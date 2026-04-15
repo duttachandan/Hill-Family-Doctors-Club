@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const { logo, getLogo } = doctorStore();
+  const [user, setUser] = useState<string | null>(null);
   const [showNav, setShowNav] = useState<boolean>(false);
   const pathName = usePathname();
 
@@ -17,6 +18,10 @@ const Navbar = () => {
     { name: "Blog", path: "/blog" },
     { name: "Contact", path: "/contact", lastChild: true },
   ];
+
+  useEffect(() => {
+    if (localStorage.getItem("email")) setUser(localStorage.getItem("email"));
+  }, []);
 
   useEffect(() => {
     getLogo();
@@ -91,13 +96,57 @@ const Navbar = () => {
               })}
             </ul>
             <div className="text-center">
-              <Link
-                className="py-3.5 px-4 bg-[#7CC343] transition duration-300
-              hover:bg-[#65a035] rounded-lg text-white"
-                href="/appointment"
-              >
-                Book An Appointment
-              </Link>
+              {user ? (
+                <div className="flex items-center">
+                  <Link
+                    className="py-3.5 px-4 bg-[#7CC343] transition duration-300
+              hover:bg-[#65a035] rounded-lg text-white mr-2"
+                    href="/appointment"
+                  >
+                    Book An Appointment
+                  </Link>
+                  <Link
+                    href="/profile"
+                    style={{ display: "flex" }}
+                    className="h-10 w-10 rounded-full items-center 
+                  justify-center text-sm bg-gray-400 profile"
+                    data-attr={user}
+                  >
+                    <svg
+                      width="13"
+                      height="16"
+                      viewBox="0 0 13 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.79834 15.1691C0.79834 12.0827 3.30038 9.58069 6.3868 9.58069C9.47322 9.58069 11.9753 12.0827 11.9753 15.1691M9.5802 3.99223C9.5802 5.7559 8.15043 7.18563 6.3868 7.18563C4.62313 7.18563 3.19339 5.7559 3.19339 3.99223C3.19339 2.22856 4.62313 0.798828 6.3868 0.798828C8.15043 0.798828 9.5802 2.22856 9.5802 3.99223Z"
+                        stroke="#525151"
+                        stroke-width="1.5967"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </Link>
+                </div>
+              ) : (
+                <>
+                  <Link
+                    className="py-3.5 px-4 bg-[#7CC343] transition duration-300
+              hover:bg-[#65a035] rounded-lg text-white me-2"
+                    href="/signin"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    className="py-3.5 px-4 border-[#7CC343] border text-[#7CC343] transition duration-300
+              hover:bg-[#65a035] rounded-lg hover:text-white"
+                    href="/signup"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </nav>
