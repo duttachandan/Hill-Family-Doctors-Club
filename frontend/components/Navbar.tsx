@@ -65,8 +65,8 @@ const Navbar = () => {
             <span className="absolute w-7.5 h-0.5 bg-black top-1.25 right-0"></span>
           </div>
           <div
-            className={`navbar-collapsed -right-full transition ease-in-out duration-300
-              ${showNav ? "fixed top-0 z-3 right-0 sm:w-[60%] w-[90%] h-full bg-white" : "hidden"} 
+            className={`-right-full transition ease-in-out duration-800 fixed lg:static
+              ${showNav ? "top-0 z-3 right-0 sm:w-[60%] w-[90%] h-full bg-white opacity-100" : "opacity-0 lg:opacity-100"} 
               lg:flex items-center grow`}
           >
             <ul className="lg:flex block text-center items-center mx-auto">

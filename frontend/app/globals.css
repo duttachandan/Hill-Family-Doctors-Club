@@ -19,3 +19,7 @@ a {
   padding: 0 15px;
   width: 100%;
 }
+
+.navbar-collapsed {
+  transition: 0.5s linear !important;
+}

@@ -43,7 +43,7 @@ const Banner = () => {
               <div className="lg:max-w-[639.76px] w-full h-fit mx-auto lg:ms-auto relative">
                 <Image
                   width={639.76}
-                  height={100}
+                  height={549.78}
                   className="w-full h-fit object-cover"
                   loading="eager"
                   fetchPriority="high"
